@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Password Strength Checker System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: #b30000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            margin: 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #b30000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #8f0000;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .Weak {
+            background: #ffe0e0;
+            color: #b30000;
+        }
+
+        .Medium {
+            background: #fff2cc;
+            color: #996600;
+        }
+
+        .Strong {
+            background: #d9f2d9;
+            color: #1f7a1f;
+        }
+
+        .error {
+            background: #ffe0e0;
+            color: #b30000;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .suggestions {
+            margin-top: 20px;
+        }
+
+        .suggestions h3 {
+            color: #333;
+        }
+
+        .suggestions ul {
+            padding-left: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            color: #777;
+            font-size: 13px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Password Strength Checker System</h1>
+        <p>Using Machine Learning, Docker, and Kubernetes</p>
+    </div>
+
+    <div class="container">
+        <h2>Check Your Password</h2>
+
+        <p class="description">
+            Enter a password to check whether it is Weak, Medium, or Strong.
+            The system does not store your password.
+        </p>
+
+        <form method="POST">
+            <input 
+                type="password" 
+                name="password" 
+                placeholder="Enter your password"
+                required
+            >
+
+            <button type="submit">Check Strength</button>
+        </form>
+
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        {% if result %}
+            <div class="result {{ result }}">
+                Result: {{ result }}
+            </div>
+
+            <div class="suggestions">
+                <h3>Suggestions:</h3>
+                <ul>
+                    {% for suggestion in suggestions %}
+                        <li>{{ suggestion }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="footer">
+        Batangas State University ARASOF - Nasugbu | CICS | 2026
+    </div>
+</body>
+</html>

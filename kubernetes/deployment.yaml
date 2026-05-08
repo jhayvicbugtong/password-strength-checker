@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: password-checker-deployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: password-checker
+  template:
+    metadata:
+      labels:
+        app: password-checker
+    spec:
+      containers:
+      - name: password-checker
+        image: password-strength-checker:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+
+        env:
+        - name: APP_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: password-checker-config
+              key: APP_ENV
+
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: password-checker-secret
+              key: SECRET_KEY
+
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 20
