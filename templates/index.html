@@ -1,183 +1,636 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Password Strength Checker System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            margin: 0;
-            padding: 0;
-        }
+<title>Password Strength Checker System</title>
 
-        .header {
-            background: #b30000;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        .header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
+<!-- Font Awesome -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-        .header p {
-            margin: 5px 0 0;
-            font-size: 14px;
-        }
+<style>
 
-        .container {
-            max-width: 500px;
-            margin: 50px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        h2 {
-            text-align: center;
-            color: #333;
-        }
+body{
+    font-family:'Poppins',sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    color:#F5F7FA;
 
-        .description {
-            text-align: center;
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
+    background: linear-gradient(
+    135deg,
+    #0F0F1A,
+    #1B1B2F,
+    #16213E
+    );
+}
 
-        input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            box-sizing: border-box;
-            margin: 12px 0;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
-        }
+/* Animated Background */
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #b30000;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+body::before{
+    content:'';
+    position:fixed;
+    width:200%;
+    height:200%;
+    top:0;
+    left:0;
 
-        button:hover {
-            background: #8f0000;
-        }
+    background:
+    radial-gradient(
+    rgba(255,255,255,0.08) 1px,
+    transparent 1px
+    );
 
-        .result {
-            margin-top: 25px;
-            padding: 15px;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-        }
+    background-size:40px 40px;
 
-        .Weak {
-            background: #ffe0e0;
-            color: #b30000;
-        }
+    animation: moveBackground 18s linear infinite;
 
-        .Medium {
-            background: #fff2cc;
-            color: #996600;
-        }
+    z-index:-1;
+}
 
-        .Strong {
-            background: #d9f2d9;
-            color: #1f7a1f;
-        }
+@keyframes moveBackground{
+    0%{
+        transform:translate(0,0);
+    }
 
-        .error {
-            background: #ffe0e0;
-            color: #b30000;
-            padding: 12px;
-            margin-top: 15px;
-            border-radius: 6px;
-            text-align: center;
-        }
+    100%{
+        transform:translate(-120px,-120px);
+    }
+}
 
-        .suggestions {
-            margin-top: 20px;
-        }
+/* HEADER */
 
-        .suggestions h3 {
-            color: #333;
-        }
+.header{
+    text-align:center;
+    padding:45px 20px 20px;
+}
 
-        .suggestions ul {
-            padding-left: 20px;
-        }
+.header h1{
+    font-size:42px;
+    font-weight:700;
+    margin-bottom:10px;
+}
 
-        .footer {
-            text-align: center;
-            color: #777;
-            font-size: 13px;
-            margin-top: 40px;
-        }
-    </style>
+.header p{
+    color:#C7CAD1;
+    font-size:15px;
+}
+
+.header i{
+    color:#FF5C7A;
+    margin-right:10px;
+}
+
+/* CONTAINER */
+
+.container{
+    width:90%;
+    max-width:550px;
+
+    margin:40px auto;
+
+    padding:35px;
+
+    border-radius:28px;
+
+    background: rgba(255,255,255,0.06);
+
+    backdrop-filter: blur(14px);
+
+    border:1px solid rgba(255,255,255,0.12);
+
+    box-shadow:
+    0 10px 40px rgba(0,0,0,0.45);
+}
+
+/* Animations */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeDown{
+    from{
+        opacity:0;
+        transform:translateY(-40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* TITLE */
+
+.container h2{
+    text-align:center;
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.description{
+    text-align:center;
+    font-size:14px;
+    line-height:1.7;
+    color:#C7CAD1;
+    margin-bottom:30px;
+}
+
+/* INPUT */
+
+.input-box{
+    position:relative;
+}
+
+.input-box i{
+    position:absolute;
+    top:50%;
+    left:16px;
+
+    transform:translateY(-50%);
+
+    color:#FF5C7A;
+}
+
+input[type="password"]{
+    width:100%;
+
+    padding:16px 16px 16px 48px;
+
+    border:none;
+    outline:none;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,0.08);
+
+    color:white;
+
+    font-size:16px;
+
+    transition:0.3s;
+}
+
+input[type="password"]::placeholder{
+    color:#C7CAD1;
+}
+
+input[type="password"]:focus{
+
+    background:rgba(255,255,255,0.12);
+
+    box-shadow:
+    0 0 18px rgba(255,59,92,0.45);
+}
+
+/* BUTTON */
+
+button{
+    width:100%;
+
+    margin-top:22px;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background: linear-gradient(
+    45deg,
+    #FF3B5C,
+    #FF5C7A
+    );
+
+    color:white;
+
+    font-size:17px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:0.35s;
+}
+
+button:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+    0 8px 25px rgba(255,59,92,0.5);
+}
+
+button::before{
+    content:'';
+
+    position:absolute;
+
+    top:0;
+    left:-100%;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(255,255,255,0.2);
+
+    transition:0.5s;
+}
+
+button:hover::before{
+    left:100%;
+}
+
+/* RESULT */
+
+.result{
+    margin-top:28px;
+
+    padding:20px;
+
+    border-radius:16px;
+
+    text-align:center;
+
+    font-size:25px;
+
+    font-weight:700;
+}
+
+/* PASSWORD STATES */
+
+.Weak{
+    background: rgba(255,77,109,0.15);
+    color:#FF4D6D;
+    border:1px solid #FF4D6D;
+}
+
+.Medium{
+    background: rgba(255,183,3,0.15);
+    color:#FFB703;
+    border:1px solid #FFB703;
+}
+
+.Strong{
+    background: rgba(0,230,118,0.15);
+    color:#00E676;
+    border:1px solid #00E676;
+}
+
+/* ERROR */
+
+.error{
+    margin-top:20px;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    background: rgba(255,77,109,0.15);
+
+    border:1px solid #FF4D6D;
+
+    color:#FF4D6D;
+}
+
+/* SUGGESTIONS */
+
+.suggestions{
+    margin-top:28px;
+
+    padding:22px;
+
+    border-radius:16px;
+
+    background:rgba(255,255,255,0.05);
+}
+
+.suggestions h3{
+    margin-bottom:16px;
+}
+
+.suggestions ul{
+    list-style:none;
+}
+
+.suggestions li{
+    margin-bottom:12px;
+
+    position:relative;
+
+    padding-left:30px;
+
+    color:#D9DCE3;
+}
+
+.suggestions li::before{
+    content:'✔';
+
+    position:absolute;
+
+    left:0;
+
+    color:#00E676;
+}
+
+/* FEATURES */
+
+.features{
+    margin-top:35px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:18px;
+}
+
+.feature-card{
+
+    padding:22px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    background:rgba(255,255,255,0.06);
+
+    transition:0.35s;
+}
+
+.feature-card:hover{
+
+    transform:translateY(-6px);
+
+    background: rgba(255,59,92,0.12);
+
+    box-shadow:
+    0 10px 25px rgba(255,59,92,0.18);
+}
+
+.feature-card i{
+
+    font-size:30px;
+
+    margin-bottom:12px;
+
+    color:#FF5C7A;
+}
+
+.feature-card h4{
+    margin-bottom:8px;
+}
+
+.feature-card p{
+    font-size:13px;
+    color:#C7CAD1;
+    line-height:1.5;
+}
+
+/* FOOTER */
+
+.footer{
+
+    text-align:center;
+
+    margin:40px 0 20px;
+
+    color:#C7CAD1;
+
+    font-size:13px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:650px){
+
+    .header h1{
+        font-size:30px;
+    }
+
+    .container{
+        padding:25px;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
 </head>
 
 <body>
-    <div class="header">
-        <h1>Password Strength Checker System</h1>
-        <p>Using Machine Learning, Docker, and Kubernetes</p>
-    </div>
 
-    <div class="container">
-        <h2>Check Your Password</h2>
+<!-- HEADER -->
 
-        <p class="description">
-            Enter a password to check whether it is Weak, Medium, or Strong.
-            The system does not store your password.
-        </p>
+<div class="header">
 
-        <form method="POST">
-            <input 
-                type="password" 
-                name="password" 
+    <h1>
+        <i class="fa-solid fa-shield-halved"></i>
+        Password Strength Checker
+    </h1>
+
+    <p>
+        AI-Powered Security System using Machine Learning,
+        Docker & Kubernetes
+    </p>
+
+</div>
+
+<!-- MAIN CONTAINER -->
+
+<div class="container">
+
+    <h2>Check Your Password</h2>
+
+    <p class="description">
+
+        Protect your accounts with strong passwords.
+        This system intelligently analyzes your password
+        and provides real-time security recommendations.
+
+    </p>
+
+    <!-- FORM -->
+
+    <form method="POST">
+
+        <div class="input-box">
+
+            <i class="fa-solid fa-lock"></i>
+
+            <input
+                type="password"
+                name="password"
                 placeholder="Enter your password"
                 required
             >
 
-            <button type="submit">Check Strength</button>
-        </form>
+        </div>
 
-        {% if error %}
-            <div class="error">
-                {{ error }}
-            </div>
-        {% endif %}
+        <button type="submit">
 
-        {% if result %}
-            <div class="result {{ result }}">
-                Result: {{ result }}
-            </div>
+            <i class="fa-solid fa-bolt"></i>
+            Check Strength
 
-            <div class="suggestions">
-                <h3>Suggestions:</h3>
-                <ul>
-                    {% for suggestion in suggestions %}
-                        <li>{{ suggestion }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
+        </button>
+
+    </form>
+
+    <!-- ERROR -->
+
+    {% if error %}
+
+    <div class="error">
+
+        <i class="fa-solid fa-circle-exclamation"></i>
+
+        {{ error }}
+
     </div>
 
-    <div class="footer">
-        Batangas State University ARASOF - Nasugbu | CICS | 2026
+    {% endif %}
+
+    <!-- RESULT -->
+
+    {% if result %}
+
+    <div class="result {{ result }}">
+
+        {% if result == "Weak" %}
+
+            <i class="fa-solid fa-triangle-exclamation"></i>
+
+        {% elif result == "Medium" %}
+
+            <i class="fa-solid fa-shield"></i>
+
+        {% elif result == "Strong" %}
+
+            <i class="fa-solid fa-shield-heart"></i>
+
+        {% endif %}
+
+        Result: {{ result }}
+
     </div>
+
+    <!-- SUGGESTIONS -->
+
+    <div class="suggestions">
+
+        <h3>
+
+            <i class="fa-solid fa-lightbulb"></i>
+
+            Suggestions
+
+        </h3>
+
+        <ul>
+
+            {% for suggestion in suggestions %}
+
+                <li>{{ suggestion }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    {% endif %}
+
+    <!-- FEATURES -->
+
+    <div class="features">
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-brain"></i>
+
+            <h4>Machine Learning</h4>
+
+            <p>
+                AI-based password analysis and smart pattern detection.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <i class="fa-brands fa-docker"></i>
+
+            <h4>Docker Deployment</h4>
+
+            <p>
+                Containerized infrastructure for easy deployment.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-network-wired"></i>
+
+            <h4>Kubernetes</h4>
+
+            <p>
+                Scalable orchestration and cloud-ready management.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-user-shield"></i>
+
+            <h4>Privacy First</h4>
+
+            <p>
+                Passwords are never stored or shared anywhere.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+    <i class="fa-solid fa-graduation-cap"></i>
+
+    Batangas State University ARASOF - Nasugbu | CICS | 2026
+
+</div>
+
 </body>
 </html>
